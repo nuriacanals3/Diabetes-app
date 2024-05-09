@@ -40,6 +40,10 @@ def get_javascript():
     with open('app.js', 'r') as f:
         return Response(f.read(), mimetype = 'text/javascript')
 
+@app.route('/styles.css', methods=['GET'])
+def get_css():
+    with open('styles.css', 'r') as f:
+        return Response(f.read(), mimetype='text/css')
 
 ##
 ## REST API
