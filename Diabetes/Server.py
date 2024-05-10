@@ -102,7 +102,8 @@ def record_data():
                                'insuline_dosage': body['insuline'],
                                'cholesterol_level': body['cholesterol'],
                                'sport_hours': body['sport'],
-                               'stress_level': body['stress']})
+                               'stress_level': body['stress'],
+                               'comments': body['comments']})
 
     return Response('', 204)
 
