@@ -49,8 +49,62 @@ def get_css():
 ## REST API
 ##
 
+client.installView('ehr', 'patients', 'by_patient_name', '''
+function(doc) {
+  if (doc.type == 'patient') {
+    emit(doc.name, doc);
+  }
+}
+''')
+
+@app.route('/create-patient', methods = [ 'POST' ])
+def create_patient():
+    # "request.get_json()" necessitates the client to have set "Content-Type" to "application/json"
+    body = json.loads(request.get_data())
+
+    patientId = None
+
+    # TODO
+    client.addDocument('ehr', {'type': 'patient', 'name': body['name']})
+
+    return Response(json.dumps({
+        'id' : patientId
+    }), mimetype = 'application/json')
 
 
+@app.route('/patients', methods = [ 'GET' ])
+def list_patients():
+    result = []
+
+    # TODO
+    patients = client.executeView('ehr', 'patients', 'by_patient_name')
+
+    for p in patients:
+        result.append({'id': p['value']['_id'], 'name': p['value']['name']})
+
+    return Response(json.dumps(result), mimetype = 'application/json')
+
+
+@app.route('/record', methods = [ 'POST' ])
+def record_data():
+    # "request.get_json()" necessitates the client to have set "Content-Type" to "application/json"
+    body = json.loads(request.get_data())
+
+    now = datetime.datetime.now().isoformat()  # Get current time
+
+    # TODO
+    client.addDocument('ehr', {'type': 'data',
+                               'patient_id': body['id'],
+                               'time': now,
+                               'glucose_level': body['glucose'],
+                               'weight': body['weight'],
+                               'blood_pressure': body['blood'],
+                               'insuline_dosage': body['insuline'],
+                               'cholesterol_level': body['cholesterol'],
+                               'sport_hours': body['sport'],
+                               'stress_level': body['stress']})
+
+    return Response('', 204)
 
 if __name__ == '__main__':
     app.run()

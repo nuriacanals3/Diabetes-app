@@ -12,10 +12,53 @@
   <body>
     <h1>My Portal</h1>
 
+    <p id="patient-div">
+      <label for="patient-input">Patient's name:</label>
+      <input type="text" label="patient-input" id="patient-input"></input>
+      <button id="patient-button">Create</button>
+    </p>
+
+    <p>
+      <label for="patient-select">Choose a patient:</label>
+      <select name="patient-select" id="patient-select">
+      </select>
+    </p>
 
     <div class="container">
       <div class="column">
         <h2>Record data</h2>
+        <form id="dataForm">  
+          <label for="glucose">Glucose Level:</label>
+          <input type="number" id="glucose" name="glucose"><br><br>
+          <label for="weight">Weight:</label>
+          <input type="number" id="weight" name="weight"><br><br>
+          <label for="blood">Blood pressure:</label>
+          <input type="number" id="blood" name="blood"><br><br>
+          <label for="insuline">Insuline Dosage:</label>
+          <input type="number" id="insuline" name="insuline"><br><br>
+          <label for="cholesterol">Cholesterol Level:</label>
+          <input type="number" id="cholesterol" name="cholesterol"><br><br>
+          <label for="sport">Hours of physical sport:</label>
+          <input type="number" id="sport" name="sport"><br><br>
+          <label>Stress Level:</label><br><br>
+          <label for="first">
+                <input type="radio" id="first" name="stress" value="0-25">
+                0-25%
+            </label><br><br>
+            <label for="second">
+                <input type="radio" id="second" name="stress" value="25-50">
+                25-50%
+            </label><br><br>
+            <label for="third">
+                <input type="radio" id="third" name="stress" value="50-75">
+                50-75%
+            </label><br><br>
+            <label for="fourth">
+                <input type="radio" id="fourth" name="stress" value="75-100">
+                75-100%
+            </label><br><br>
+          <button type="submit">Send</button>
+        </form>
       </div>
       <div class="column">
         <h2>Visualize data</h2>
