@@ -11,7 +11,7 @@ import json
 
 import CouchDBClient
 
-client = CouchDBClient.CouchDBClient(url='http://localhost:5984', username='admin', password='password')
+client = CouchDBClient.CouchDBClient()
 
 #client.reset()   # If you want to clear the entire content of CouchDB
 
