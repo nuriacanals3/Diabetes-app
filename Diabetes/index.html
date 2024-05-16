@@ -17,15 +17,15 @@
       <h2 class="mt-4">Patient Information</h2>
       <div class="mb-3">
         <label for="patientName" class="form-label">Patient Name</label>
-        <input type="text" class="form-control" id="patientName" placeholder="Enter patient name", oninput="searchPatient(this.value)">
-        <button type="button" class="btn btn-primary mt-2" onclick="createPatient()">Create Patient</button>
+        <input type="text" class="form-control" list="patientList" id="patientName" placeholder="Enter patient name" oninput="searchPatient(this.value)">
         <datalist id="patientList">
-          {# We need a function to list patients and to create them#}
+          <!-- The list of patients will be displayed here -->
         </datalist>
+        <div class="text-center"> 
+        <button type="button" class="btn btn-primary mt-2" onclick="createPatient()">Save</button>
+        </div>
       </div>
-      {# We need a function to select patient #}
       <hr>
-
       <!-- The data recording -->
       <h2 class="mt-4">Record data</h2>
       <div class="mb-3">
