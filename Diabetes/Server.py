@@ -85,6 +85,34 @@ def list_patients():
     return Response(json.dumps(result), mimetype = 'application/json')
 
 
+@app.route('/create-select-patient', methods=['POST'])
+def create_select_patient():
+    body = request.json
+    patient_name = body.get("name")
+
+    patients = client.executeView('ehr', 
+                                  'patients', 
+                                  'by_patient_name')
+    
+    if patients:
+        patient_id = patients[0]['_id']
+    else:
+        patient_id = client.addDocument('ehr', {'type': 'patient', 'name': patient_name})['_id']
+
+    return Response(json.dumps({'id': patient_id}), mimetype='application/json')
+
+@app.route('/search-patient', methods=['GET'])
+def serch_patient():
+    patient_name = request.args.get("name", "")
+    patients = client.executeView('ehr', 
+                                  'patients', 
+                                  'by_patient_name')
+
+    result = [{'id': p['_id'], 'name': p['name']} for p in patients]
+
+    return Response(json.dumps(result), mimetype='application/json')
+
+
 @app.route('/record', methods = [ 'POST' ])
 def record_data():
     # "request.get_json()" necessitates the client to have set "Content-Type" to "application/json"
@@ -108,4 +136,4 @@ def record_data():
     return Response('', 204)
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
