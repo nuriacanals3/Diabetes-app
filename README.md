@@ -3,9 +3,9 @@
 ## Launch the project 
 First, start the CouchDB with the following command in the terminal : 
 
-`run CouchDB: docker run --rm -i -p 5984:5984 -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=password couchdb:3.3.3`
+`docker run --rm -i -p 5984:5984 -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=password couchdb:3.3.3`
 
-`run CouchDB: docker run --rm -i -p 5984:5984 -v "$(pwd)/couchdb_data:/opt/couchdb/data" -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=password couchdb:3.3.3`
+`docker run --rm -i -p 5984:5984 -v "$(pwd)/couchdb_data:/opt/couchdb/data" -e COUCHDB_USER=admin -e COUCHDB_PASSWORD=password couchdb:3.3.3`
 
 Then, to launch the server with our website application, run the following command 
 
