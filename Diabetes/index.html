@@ -68,9 +68,21 @@
 
     <div class="col-md-6 text-center">
       <h2 class="mt-4">Data Visualization</h2>
+      <div id="patientDropdown" class="mt-4">
+        <select id="selectedParameter" class="form-select">
+          <option value="glucose_level">Glucose Level</option>
+          <option value="weight">Weight</option>
+          <option value="blood_pressure">Blood Pressure</option>
+          <option value="insulin_dosage">Insulin Dose</option>
+          <option value="cholesterol_level">Cholesterol Level</option>
+          <option value="sport_hours">Hours of Physical Sport</option>
+          <option value="stress_level">Stress Level</option>
+        </select>
+      </div>
       <div id="graphs" class="mt-4"></div>
-      <button id="showGraphBtn" class="btn btn-primary mt-4">Show Graph</button>
+      <button id="showGraphBtn" class="btn btn-primary mt-3">Show Graph</button>
     </div>
+    
   </div>
 </div>
 

@@ -182,35 +182,41 @@ function saveData() {
 document.getElementById('showGraphBtn').addEventListener('click', function() {
   const patientInputValue = document.getElementById('patientName').value;
   const patientId = patientInputValue.split('-')[1].trim();
+  const parameter = document.getElementById('selectedParameter').value;
   if (!patientId) {
     alert('Please select a patient.');
     return;
   }
-  fetchDataAndPlot(patientId);
+  fetchDataAndPlot(patientId, parameter);
 });
 
-function fetchDataAndPlot(patientId) {
+function fetchDataAndPlot(patientId, parameter) {
   axios.get('/patient-records/' + patientId)
     .then(function(response) {
       const records = response.data;
 
-      const glucoseLevels = records.map(record => record.glucose_level);
+      if (!records || records.length === 0) {
+        alert('No records found for this patient.');
+        return;
+      }
+
+      const paramValues = records.map(record => record[parameter]);
       const dates = records.map(record => new Date(record.time));
 
       const data = [{
         x: dates,
-        y: glucoseLevels,
+        y: paramValues,
         type: 'scatter',
         mode: 'lines+markers',
-        name: 'Glucose Level'
+        name: parameter.replace('-', ' ').toUpperCase()
       }];
       const layout = {
-        title: 'Glucose Level Over Time',
+        title: `${parameter.replace('_', ' ').toUpperCase()} Over Time`,
         xaxis: {
           title: 'Date'
         },
         yaxis: {
-          title: 'Glucose Level (mg/dL)'
+          title: parameter.replace('-', ' ').toUpperCase()
         }
       };
       Plotly.newPlot('graphs', data, layout);
@@ -220,6 +226,7 @@ function fetchDataAndPlot(patientId) {
       alert('Failed to fetch patient records.');
     });
 }
+
 
 var patientNameInput = document.getElementById('patientName');
 patientNameInput.addEventListener('input', function() {

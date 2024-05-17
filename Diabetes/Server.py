@@ -37,7 +37,7 @@ def populate_db():
                     "time": "2024-05-01T12:00:00",
                     "glucose_level": 100,
                     "weight": 70,
-                    "blood_pressure": "120/80",
+                    "blood_pressure": 120,
                     "insulin_dosage": 10,
                     "cholesterol_level": 90,
                     "sport_hours": 2,
@@ -48,7 +48,7 @@ def populate_db():
                     "time": "2024-05-02T12:10:00",
                     "glucose_level": 110,
                     "weight": 80,
-                    "blood_pressure": "118/78",
+                    "blood_pressure": 118,
                     "insulin_dosage": 20,
                     "cholesterol_level": 155,
                     "sport_hours": 6,
@@ -59,7 +59,7 @@ def populate_db():
                     "time": "2024-05-02T12:50:00",
                     "glucose_level": 80,
                     "weight": 90,
-                    "blood_pressure": "118/78",
+                    "blood_pressure": 140,
                     "insulin_dosage": 12,
                     "cholesterol_level": 155,
                     "sport_hours": 1.5,
@@ -176,11 +176,10 @@ def get_patient_records(patient_id):
     patient = client.getDocument('ehr', patient_id)
 
     if not patient or 'records' not in patient:
-        return Response(json.dumps({"error": "Patient records not found"}), status=404, mimetype="application/json")
+        return Response(json.dumps({"error": "Patient or records not found"}), status=404, mimetype="application/json")
 
-    return Response(json.dumps(patient['records']), mimetype='application/json')
-
+    return Response(json.dumps(patient.get('records', [])), mimetype='application/json')
 
 if __name__ == '__main__':
     populate_db()
-    app.run(debug=True)
+    app.run(debug=False)
