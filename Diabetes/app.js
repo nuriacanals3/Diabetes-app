@@ -28,7 +28,7 @@ function refreshPatients() {
     responseType: 'json'
   })
     .then(function(response) {
-      var select = document.getElementById('patient-select');
+      var select = document.getElementById('patientName');
 
       while (select.options.length > 0) {
         select.options.remove(0);
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
   form.addEventListener('submit', function(event) {
       event.preventDefault();
 
-      const patientId = document.getElementById('patient-select').value;
+      const patientId = document.getElementById('patientName').value;
 
       const formData = new FormData(form);
 
@@ -177,6 +177,48 @@ function saveData() {
     .catch(function (error) {
       console.error('Error saving data:', error);
       alert('Failed to save data. Please try again.');
+    });
+}
+
+document.getElementById('showGraphBtn').addEventListener('click', function() {
+  const patientInputValue = document.getElementById('patientName').value;
+  const patientId = patientInputValue.split('-')[1].trim();
+  if (!patientId) {
+    alert('Please select a patient.');
+    return;
+  }
+  fetchDataAndPlot(patientId);
+});
+
+function fetchDataAndPlot(patientId) {
+  axios.get('/patient-records/' + patientId)
+    .then(function(response) {
+      const records = response.data;
+
+      const glucoseLevels = records.map(record => record.glucose_level);
+      const dates = records.map(record => new Date(record.time));
+
+      const data = [{
+        x: dates,
+        y: glucoseLevels,
+        type: 'scatter',
+        mode: 'lines+markers',
+        name: 'Glucose Level'
+      }];
+      const layout = {
+        title: 'Glucose Level Over Time',
+        xaxis: {
+          title: 'Date'
+        },
+        yaxis: {
+          title: 'Glucose Level (mg/dL)'
+        }
+      };
+      Plotly.newPlot('graphs', data, layout);
+    })
+    .catch(function(error) {
+      console.error('Error fetching patient records:', error);
+      alert('Failed to fetch patient records.');
     });
 }
 

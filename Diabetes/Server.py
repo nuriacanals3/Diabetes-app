@@ -136,6 +136,17 @@ def record_data():
 
     return Response('', 204)
 
+
+@app.route('/patient-records/<patient_id>', methods=['GET'])
+def get_patient_records(patient_id):
+    patient = client.getDocument('ehr', patient_id)
+
+    if not patient or 'records' not in patient:
+        return Response(json.dumps({"error": "Patient records not found"}), status=404, mimetype="application/json")
+
+    return Response(json.dumps(patient['records']), mimetype='application/json')
+
+
 if __name__ == '__main__':
-    populate_db()
+    # populate_db()
     app.run(debug=True)
