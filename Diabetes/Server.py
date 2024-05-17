@@ -31,7 +31,7 @@ def add_patient(name, records):
 
 
 def populate_db():
-    init_users = ["Micha", "Cezary", "Nuria"]
+    init_users = ["Patient_A", "Patient_B", "Patient_C"]
 
     records =  [{
                     "time": "2024-05-01T12:00:00",
