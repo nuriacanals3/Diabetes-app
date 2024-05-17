@@ -19,21 +19,55 @@ if not 'ehr' in client.listDatabases():
     client.createDatabase('ehr')
 
 
-def add_patient(name):
+def add_patient(name, records):
     patient_id = client._generateUuid()
     patient_doc = {
         '_id': patient_id,
         'type': 'patient',
         'name': name,
-        'records': []
+        'records': records
     }
     client.addDocument('ehr', patient_doc)
 
 
 def populate_db():
     init_users = ["Micha", "Cezary", "Nuria"]
+
+    records =  [{
+                    "time": "2024-05-01T12:00:00",
+                    "glucose_level": 100,
+                    "weight": 70,
+                    "blood_pressure": "120/80",
+                    "insulin_dosage": 10,
+                    "cholesterol_level": 90,
+                    "sport_hours": 2,
+                    "stress_level": 40,
+                    "comments": "Normal readings"
+                },
+                {
+                    "time": "2024-05-02T12:10:00",
+                    "glucose_level": 110,
+                    "weight": 80,
+                    "blood_pressure": "118/78",
+                    "insulin_dosage": 20,
+                    "cholesterol_level": 155,
+                    "sport_hours": 6,
+                    "stress_level": 45,
+                    "comments": "Slight increase in glucose level"
+                },
+                {
+                    "time": "2024-05-02T12:50:00",
+                    "glucose_level": 80,
+                    "weight": 90,
+                    "blood_pressure": "118/78",
+                    "insulin_dosage": 12,
+                    "cholesterol_level": 155,
+                    "sport_hours": 1.5,
+                    "stress_level": 80,
+                    "comments": "Slight increase in glucose level"
+                }]
     for user in init_users:
-        add_patient(user)
+        add_patient(user, records)
 
 ##
 ## Serving static HTML/JavaScript resources using Flask
@@ -148,5 +182,5 @@ def get_patient_records(patient_id):
 
 
 if __name__ == '__main__':
-    # populate_db()
+    populate_db()
     app.run(debug=True)

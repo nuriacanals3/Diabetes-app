@@ -28,7 +28,7 @@ function refreshPatients() {
     responseType: 'json'
   })
     .then(function(response) {
-      var select = document.getElementById('patientList'); // Update the ID to match your HTML
+      var select = document.getElementById('patientList');
 
       while (select.options.length > 0) {
         select.options.remove(0);
