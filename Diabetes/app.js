@@ -24,11 +24,11 @@
 
 
 function refreshPatients() {
-  axios.get('patients', {
+  axios.get('/patients', {
     responseType: 'json'
   })
     .then(function(response) {
-      var select = document.getElementById('patientName');
+      var select = document.getElementById('patientList'); // Update the ID to match your HTML
 
       while (select.options.length > 0) {
         select.options.remove(0);
@@ -41,62 +41,61 @@ function refreshPatients() {
       }
 
     })
-    .catch(function(response) {
+    .catch(function(error) {
       alert('URI /patients not properly implemented in Flask');
     });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  
   refreshPatients();
   const form = document.getElementById('dataForm');
 
   form.addEventListener('submit', function(event) {
-      event.preventDefault();
+    event.preventDefault();
 
-      const patientId = document.getElementById('patientName').value;
+    const patientId = document.getElementById('patientName').value;
 
-      const formData = new FormData(form);
+    const formData = new FormData(form);
 
-      const data = {
-          id: patientId
-      };
-      formData.forEach((value, key) => {
-          data[key] = value;
+    const data = {
+      patient: patientId 
+    };
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+
+    // POST request to API
+    axios.post('/record', data)
+      .then(response => {
+        if (response.status === 204) {
+          alert('Data saved successfully!');
+          form.reset();
+        } else {
+          alert('Failed to save data. Please try again.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('Failed to save data. Please try again.');
       });
-
-      // POST request to API 
-      axios.post('/record', data)
-          .then(response => {
-              if (response.status === 204) {
-                  alert('Data saved successfully!');
-                  form.reset();
-              } else {
-                  alert('Failed to save data. Please try again.');
-              }
-          })
-          .catch(error => {
-              console.error('Error:', error);
-              alert('Failed to save data. Please try again.');
-          });
   });
 
   document.getElementById('patient-button').addEventListener('click', function() {
-      var name = document.getElementById('patient-input').value;
-      if (name == '') {
-        alert('No name was provided');
-      } else {
-        axios.post('create-select-patient', {
-          name: name
+    var name = document.getElementById('patientName').value; 
+    if (name == '') {
+      alert('No name was provided');
+    } else {
+      axios.post('/create-select-patient', { 
+        name: name
+      })
+        .then(function(response) {
+          document.getElementById('patientName').value = ''; 
+          refreshPatients();
         })
-          .then(function(response) {
-            document.getElementById('patient-input').value = '';
-            refreshPatients();
-          })
-          .catch(function(response) {
-            alert('URI /create-patient not properly implemented in Flask');
-          });
-      }
+        .catch(function(error) { 
+          alert('URI /create-patient not properly implemented in Flask');
+        });
+    }
   });
 });
 
