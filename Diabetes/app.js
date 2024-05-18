@@ -104,6 +104,7 @@ var stressLevel = document.getElementById('stressLevel').value;
 document.getElementById('stressLevelPercentage').textContent = stressLevel;
 }
 
+// Function to create a patient
 function createPatient() {
 var patient = document.getElementById('patientName').value;
 if (patient.trim() === '') {
@@ -122,6 +123,7 @@ axios.post('/create-select-patient', { name: patient })
 });
 }
 
+// Function to search for a patient and show it in datalist
 function searchPatient(name) {
   if (name.trim() === '') {
     return;
@@ -144,6 +146,7 @@ function searchPatient(name) {
     });
 }
 
+// Function to save data and post to record
 function saveData() {
   var patient = document.getElementById('patientName').value;
   var glucose = document.getElementById('glucoseLevel').value;
@@ -178,6 +181,7 @@ function saveData() {
     });
 }
 
+// Listener to show the data based on the function fetchDataAndPlot
 document.getElementById('showGraphBtn').addEventListener('click', function() {
   const patientInputValue = document.getElementById('patientName').value;
   const patientId = patientInputValue.split('-')[1].trim();
@@ -226,11 +230,12 @@ function fetchDataAndPlot(patientId, parameter) {
     });
 }
 
-
+// Listener for the patient
 var patientNameInput = document.getElementById('patientName');
 patientNameInput.addEventListener('input', function() {
 searchPatient(patientNameInput.value);
 });
 
+// Listener for the slider stress level
 var stressLevelInput = document.getElementById('stressLevel');
 stressLevelInput.addEventListener('input', updateStressLevelPercentage);
