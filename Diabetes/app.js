@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', function() {
       data[key] = value;
     });
 
-    // POST request to API
     axios.post('/record', data)
       .then(response => {
         if (response.status === 204) {

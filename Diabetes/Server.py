@@ -19,6 +19,9 @@ if not 'ehr' in client.listDatabases():
     client.createDatabase('ehr')
 
 
+"""
+    Function to populate the db at the start 
+"""
 def add_patient(name, records):
     patient_id = client._generateUuid()
     patient_doc = {
@@ -107,6 +110,9 @@ function(doc) {
 }
 ''')
 
+"""
+    Get the patients
+"""
 @app.route('/patients', methods = [ 'GET' ])
 def list_patients():
     result = []
@@ -118,6 +124,9 @@ def list_patients():
     return Response(json.dumps(result), mimetype = 'application/json')
 
 
+"""
+    Create the patient and select if it exist
+"""
 @app.route('/create-select-patient', methods=['POST'])
 def create_select_patient():
     body = request.json
@@ -137,6 +146,9 @@ def create_select_patient():
     return Response(json.dumps({'id': patient_id}), mimetype='application/json')
 
 
+"""
+    Save the records (data of the patient)
+"""
 @app.route('/record', methods = [ 'POST' ])
 def record_data():
     # "request.get_json()" necessitates the client to have set "Content-Type" to "application/json"
@@ -171,6 +183,9 @@ def record_data():
     return Response('', 204)
 
 
+"""
+    Get the patient data for the visualisation 
+"""
 @app.route('/patient-records/<patient_id>', methods=['GET'])
 def get_patient_records(patient_id):
     patient = client.getDocument('ehr', patient_id)
